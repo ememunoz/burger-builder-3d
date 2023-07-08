@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  3. Allow percentage-based heights in the application
+*/
+html,
+body {
+  height: 100%;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  7. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/*
+  8. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* #root {
+  display: flex;
+  height: 100%;
+} */
+
+body {
+  background-color: hsl(167, 51%, 52%);
+}
+
+/* Fonts */
+@font-face {
+  font-family: 'Titan One';
+  font-style: normal;
+  src: url('/assets/fonts/TitanOne-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  src: url('/assets/fonts/RobotoCondensed-Regular.ttf') format('truetype');
+}
+
+/* Fonts */
+
+/* Layout */
+
+.wrapper {
+  display: grid;
+  grid-template-columns:
+    1fr
+    min(85ch, calc(100% - 64px))
+    1fr;
+  grid-column-gap: 32px;
+}
+
+.wrapper > * {
+  grid-column: 2;
+}
+
+.full-bleed {
+  width: 100%;
+  grid-column: 1 / 4;
+}
+
+.before\:tile::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('/assets/img/tile.webp');
+  background-size: 50%;
+  background-repeat: repeat;
+  background-blend-mode: color-burn;
+  background-color: hsl(167, 51%, 52%);
+  opacity: 0.2;
+  z-index: -1;
+}
+
+@media (min-width: 768px) {
+  .before\:tile::before {
+    background-size: 20%;
+  }
+}
+/* Layout */
