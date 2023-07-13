@@ -125,11 +125,10 @@ body {
   bottom: 0;
   left: 0;
   background-image: url('/assets/img/tile.webp');
+  background-color: hsl(167, 51%, 52%);
   background-size: 50%;
   background-repeat: repeat;
   background-blend-mode: color-burn;
-  background-color: hsl(167, 51%, 52%);
-  opacity: 0.2;
   z-index: -1;
 }
 
