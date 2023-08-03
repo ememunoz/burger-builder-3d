@@ -10,14 +10,13 @@ import { IngredientButton } from './IngredientButton'
 import { Lights } from './Lights'
 
 const INGREDIENT_CONTROLS: Ingredient[] = ['steak', 'cheese', 'tomato', 'salad']
-
 export const BurgerBuilder = () => {
 
   const [ingredients, setIngredients] =
     useState<IngredientList>([])
 
   const addIngredient = (type: Ingredient) => {
-    const id = generateUUID();
+    const id = generateUUID()
     setIngredients(ingredients => [...ingredients, { id, name: type }])
   }
   const addIngredientFnBuilder = (type: Ingredient) => () => addIngredient(type)
@@ -25,10 +24,22 @@ export const BurgerBuilder = () => {
   const removeIngredient = (id: string) => {
     setIngredients(ingredients => ingredients.filter(ingredient => ingredient.id !== id))
   }
+
+  const doNothing: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    // When double clicking on canvas, for some reason it selects the closest text below
+    e.preventDefault()
+    return false
+  }
+
+  const finish = () => {
+    const id = generateUUID()
+    setIngredients(ingredients => [...ingredients, { id, name: 'topBun' }])
+  }
+
   return (
     <div className='flex flex-col aspect-[9/15] md:w-1/2 md:mx-auto'>
       <Suspense fallback={null}>
-        <Canvas>
+        <Canvas onMouseDown={doNothing} orthographic camera={{ zoom: 225, position: [1, 1, 2], }}>
           <Lights />
           <Suspense fallback={null}>
             <Physics>
@@ -46,6 +57,9 @@ export const BurgerBuilder = () => {
             <Icon id={ingredient as IconId} />
           </IngredientButton>
         ))}
+        <IngredientButton onClick={finish}>
+          <Icon id='burger' />
+        </IngredientButton>
       </div>
     </div>
   )

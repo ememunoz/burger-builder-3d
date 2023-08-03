@@ -1,4 +1,5 @@
 export type IconId =
+  | 'burger'
   | 'cheese'
   | 'salad'
   | 'steak'

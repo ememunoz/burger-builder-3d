@@ -9,10 +9,10 @@ import { BottomBun, Cheese, Salad, Steak, Tomato, TopBun } from './IngredientMes
 
 const INGREDIENT_HEIGHTS = {
   bottomBun: 0.2,
-  cheese: 0.06,
+  cheese: 0.1,
   salad: 0.14,
   steak: 0.2,
-  tomato: 0.06,
+  tomato: 0.12,
   topBun: 0.24,
 }
 
@@ -50,7 +50,7 @@ const BurgerPreview = ({ ingredients, onRemoveIngredient }: Props) => {
   const ingredientHeights = calculateHeights(ingredients)
   console.log('ingredientHeights', ingredientHeights)
   return (
-    <group rotation={new Euler(0, -Math.PI / 2 + 0.3, 0)} position={[0, -1.4, 2.5]}>
+    <group rotation={new Euler(0, -Math.PI / 2, 0)} position={[0, -1.35, 0]}>
       <Selection>
         <EffectComposer multisampling={8} autoClear={false}>
           <Outline edgeStrength={100} />
