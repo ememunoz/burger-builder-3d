@@ -7,17 +7,6 @@ import { Ingredient, IngredientList } from '../../types/ingredients'
 import { Bounds } from './bounds'
 import { BottomBun, Cheese, Salad, Steak, Tomato, TopBun } from './IngredientMeshes'
 
-const INGREDIENT_HEIGHTS = {
-  bottomBun: 0.2,
-  cheese: 0.1,
-  salad: 0.14,
-  steak: 0.2,
-  tomato: 0.12,
-  topBun: 0.24,
-}
-
-const THROW_HEIGHT = 0.4
-
 const getIngredientComponent = (ingredient: Ingredient): FC | undefined => {
   switch (ingredient) {
     case 'bottomBun':
@@ -37,18 +26,14 @@ const getIngredientComponent = (ingredient: Ingredient): FC | undefined => {
   }
 }
 
-const calculateHeights = (ingredients: IngredientList) => {
-  let _sum = THROW_HEIGHT + INGREDIENT_HEIGHTS['bottomBun']
-  return ingredients.map(
-    ingredient => (_sum += INGREDIENT_HEIGHTS[ingredient.name])
-  )
+type Props = {
+  ingredients: IngredientList,
+  ingredientHeights: number[],
+  onRemoveIngredient: (id: string) => void
 }
 
-type Props = { ingredients: IngredientList, onRemoveIngredient: (id: string) => void }
-const BurgerPreview = ({ ingredients, onRemoveIngredient }: Props) => {
+const BurgerPreview = ({ ingredients, onRemoveIngredient, ingredientHeights }: Props) => {
   // TODO similar array construction for random angles to look more organic
-  const ingredientHeights = calculateHeights(ingredients)
-  console.log('ingredientHeights', ingredientHeights)
   return (
     <group rotation={new Euler(0, -Math.PI / 2, 0)} position={[0, -1.35, 0]}>
       <Selection>

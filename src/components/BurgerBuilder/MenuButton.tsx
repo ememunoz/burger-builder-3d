@@ -4,10 +4,10 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
 }
 
-export const IngredientButton = ({ children, className = '', ...props }: Props) => (
+export const MenuButton = ({ children, className = '', ...props }: Props) => (
   <button
     type="button"
-    className={`px-4 py-2 rounded bg-mint text-mintDark-700 hover:bg-mintHover active:bg-mintActive ${className}`}
+    className={`text-2xl font-display px-4 py-2 rounded bg-mintDark-500 text-white hover:bg-mintDark-600 active:bg-mintDark-700 ${className}`}
     {...props}
   >
     {children}
