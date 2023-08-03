@@ -25,12 +25,13 @@ export const Banner = ({ className = '' }: { className?: string }) => {
           >
             Starting from $2.99
           </p>
-          <button
-            className={`font-body text-xl px-4 py-2 rounded bg-mint text-white hover:bg-mintHover active:bg-mintActive
+          <a
+            className={`font-body text-xl px-4 py-2 rounded bg-mint text-white text-center cursor-pointer hover:bg-mintHover active:bg-mintActive
                             md:bg-yellow md:hover:bg-yellowHover md:active:bg-yellowActive md:text-black md:shadow-md `}
+            href='#build-your-own'
           >
             Build now
-          </button>
+          </a>
         </div>
       </div>
     </div>

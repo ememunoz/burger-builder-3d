@@ -13,12 +13,6 @@ function App() {
       <Navbar />
       <Banner />
       <main className="wrapper">
-        <section>
-          Build your own
-          <div className="aspect-[9/16] md:aspect-video">
-            <BurgerBuilder />
-          </div>
-        </section>
         <section className="full-bleed relative before:tile">
           <div className="wrapper">
             <div className="flex flex-col md:flex-row gap-6 py-16">
@@ -39,6 +33,10 @@ function App() {
               />
             </div>
           </div>
+        </section>
+        <section>
+          <h2 id='build-your-own' className='font-display'>Build your own</h2>
+          <BurgerBuilder />
         </section>
       </main>
       <footer className="wrapper bg-mintDark py-8 text-white">
