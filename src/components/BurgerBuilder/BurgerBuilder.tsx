@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Canvas } from '@react-three/fiber'
 import { Physics } from '@react-three/rapier'
-import { Suspense, useState } from 'react'
+import { MouseEventHandler, Suspense, useState } from 'react'
 import { generateUUID } from 'three/src/math/MathUtils.js'
 
 import { Ingredient, IngredientList } from '../../types/ingredients'
@@ -81,7 +81,7 @@ export const BurgerBuilder = () => {
     }
   )
 
-  const doNothing: React.MouseEventHandler<HTMLDivElement> = (e) => {
+  const doNothing: MouseEventHandler<HTMLDivElement> = (e) => {
     // When double clicking on canvas, for some reason it selects the closest text below
     e.preventDefault()
     return false

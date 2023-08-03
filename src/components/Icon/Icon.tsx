@@ -1,3 +1,5 @@
+import { SVGAttributes } from "react"
+
 export type IconId =
   | 'burger'
   | 'cheese'
@@ -5,7 +7,7 @@ export type IconId =
   | 'steak'
   | 'tomato'
 
-interface Props extends React.SVGAttributes<SVGElement> {
+interface Props extends SVGAttributes<SVGElement> {
   id: IconId
   className?: string
 }
