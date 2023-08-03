@@ -8,7 +8,7 @@ export const BurgerCard = ({
   imgSrc: string
 }) => {
   return (
-    <div className="flex flex-col gap-4 bg-mintDark shadow-lg shadow-mintDark p-6 text-white rounded overflow-hidden">
+    <div className="flex flex-col gap-4 bg-mintDark-700 shadow-lg shadow-mintDark-700 p-6 text-white rounded overflow-hidden">
       <div className="mx-[-1.5rem] mt-[-1.5rem]">
         <img src={imgSrc} />
       </div>

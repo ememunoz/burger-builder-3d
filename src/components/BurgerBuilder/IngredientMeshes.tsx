@@ -16,7 +16,9 @@ type Props = {
   onDoubleClick?: (e: ThreeEvent<MouseEvent>) => void
 }
 
-const RESTITUTION = 0.2
+const RESTITUTION = 0.1
+const ANGULAR_DAMPING = 10
+const LINEAR_DAMPING = 2
 
 export const BottomBun = ({ positionY = 0, onDoubleClick }: Props) => (
   <RigidBody
@@ -25,6 +27,8 @@ export const BottomBun = ({ positionY = 0, onDoubleClick }: Props) => (
     type="fixed"
     restitution={0}
     friction={1}
+    linearDamping={10}
+    angularDamping={10}
   >
     <CuboidCollider args={[0.5, 0.1, 0.8]} position={[0, 0.09, 0]} />
     <BottomBumMesh onDoubleClick={onDoubleClick} />
@@ -40,6 +44,8 @@ export const Tomato = ({ positionY = 0, onDoubleClick }: Props) => {
       position={[0, positionY, 0]}
       restitution={RESTITUTION}
       friction={1}
+      linearDamping={LINEAR_DAMPING}
+      angularDamping={ANGULAR_DAMPING}
     >
       <CuboidCollider args={[0.5, 0.06, 0.8]} />
       <Select enabled={hovered}>
@@ -62,10 +68,10 @@ export const Cheese = ({ positionY = 0, onDoubleClick }: Props) => {
       position={[0, positionY, 0]}
       restitution={RESTITUTION}
       friction={1}
-      angularDamping={4}
-      linearDamping={0.2}
+      linearDamping={LINEAR_DAMPING}
+      angularDamping={ANGULAR_DAMPING}
     >
-      <CuboidCollider args={[0.5, 0.03, 0.8]} />
+      <CuboidCollider args={[0.5, 0.05, 0.8]} />
       <Select enabled={hovered}>
         <CheeseMesh
           onDoubleClick={onDoubleClick}
@@ -83,8 +89,8 @@ export const TopBun = ({ positionY = 0 }: Props) => (
     position={[0, positionY, 0]}
     restitution={0}
     friction={1}
-    angularDamping={4}
-    linearDamping={0.2}
+    linearDamping={LINEAR_DAMPING}
+    angularDamping={ANGULAR_DAMPING}
   >
     <CuboidCollider args={[0.5, 0.12, 0.8]} />
     <TopBunMesh />
@@ -100,8 +106,8 @@ export const Salad = ({ positionY = 0, onDoubleClick }: Props) => {
       position={[0, positionY, 0]}
       restitution={RESTITUTION}
       friction={1}
-      angularDamping={4}
-      linearDamping={0.2}
+      linearDamping={LINEAR_DAMPING}
+      angularDamping={ANGULAR_DAMPING}
     >
       <CuboidCollider args={[0.5, 0.07, 0.8]} />
       <Select enabled={hovered}>
@@ -124,8 +130,8 @@ export const Steak = ({ positionY = 0, onDoubleClick }: Props) => {
       position={[0, positionY, 0]}
       restitution={RESTITUTION}
       friction={2}
-      angularDamping={4}
-      linearDamping={0.2}
+      linearDamping={LINEAR_DAMPING}
+      angularDamping={ANGULAR_DAMPING}
     >
       <CuboidCollider args={[0.5, 0.1, 0.8]} />
       <Select enabled={hovered}>

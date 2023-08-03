@@ -34,17 +34,22 @@ function App() {
             </div>
           </div>
         </section>
-        <section>
-          <h2 id='build-your-own' className='font-display'>Build your own</h2>
+        <section className='py-8'>
+          <h2 id='build-your-own' className='font-display text-2xl text-mintDark-700'>Build your own</h2>
           <BurgerBuilder />
         </section>
       </main>
-      <footer className="wrapper bg-mintDark py-8 text-white">
+      <footer className="wrapper bg-mintDark-700 py-8 text-white">
+        <p className='mb-2'>
+          Welcome to Build·a·Burger, a fictional restaurant crafted for the purpose of showcasing my developer skills.
+        </p>
+        <p className="mb-2">
+          Please be aware that this website is entirely simulated and does not represent an actual establishment. It's a
+          demonstration of my web development capabilities and creativity using React, ThreeJS and React Three Fiber,
+          among others.
+        </p>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur
-          quibusdam provident voluptatum laborum asperiores fuga minima labore
-          ea modi praesentium molestias, repellendus quasi ab! Laudantium
-          impedit hic eos illo totam?
+          Savor the virtual flavors and ambiance we 'serve,' and thank you for being our guest!"
         </p>
       </footer>
     </>

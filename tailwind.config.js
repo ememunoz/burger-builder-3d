@@ -16,7 +16,11 @@ export default {
       mint: 'hsl(167 51% 54%)',
       mintHover: 'hsl(167 51%, 46%)',
       mintActive: 'hsl(167 51% 38%)',
-      mintDark: 'hsl(210 10% 15%)',
+      mintDark: {
+        700: 'hsl(210 10% 20%)',
+        600: 'hsl(210 15% 30%)',
+        500: 'hsl(210 15% 40%)',
+      },
       yellow: 'hsl(42 100% 62%)',
       yellowHover: 'hsl(42 100% 54%)',
       yellowActive: 'hsl(42 100% 46%)',
