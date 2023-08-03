@@ -1,25 +1,20 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { ThreeEvent } from '@react-three/fiber'
+import { EffectComposer, Outline, Selection } from '@react-three/postprocessing'
 import { ElementType, FC } from 'react'
 import { Euler } from 'three'
 
+import { Ingredient, IngredientList } from '../../types/ingredients'
 import { Bounds } from './bounds'
-import { BottomBun, Cheese, Salad, Steak, Tomato, TopBun } from './hamburger'
+import { BottomBun, Cheese, Salad, Steak, Tomato, TopBun } from './IngredientMeshes'
 
-type Ingredient =
-  | 'bottomBun'
-  | 'cheese'
-  | 'salad'
-  | 'steak'
-  | 'tomato'
-  | 'topBun'
-
-const INGREDIENT_HEIGHTS = new Map<Ingredient, number>()
-INGREDIENT_HEIGHTS.set('bottomBun', 0.2)
-INGREDIENT_HEIGHTS.set('cheese', 0.06)
-INGREDIENT_HEIGHTS.set('salad', 0.14)
-INGREDIENT_HEIGHTS.set('steak', 0.2)
-INGREDIENT_HEIGHTS.set('tomato', 0.06)
-INGREDIENT_HEIGHTS.set('topBun', 0.24)
+const INGREDIENT_HEIGHTS = {
+  bottomBun: 0.2,
+  cheese: 0.06,
+  salad: 0.14,
+  steak: 0.2,
+  tomato: 0.06,
+  topBun: 0.24,
+}
 
 const THROW_HEIGHT = 0.4
 
@@ -42,28 +37,43 @@ const getIngredientComponent = (ingredient: Ingredient): FC | undefined => {
   }
 }
 
-const calculateHeights = (ingredients: Ingredient[]) => {
-  let _sum = THROW_HEIGHT + INGREDIENT_HEIGHTS.get('bottomBun')!
+const calculateHeights = (ingredients: IngredientList) => {
+  let _sum = THROW_HEIGHT + INGREDIENT_HEIGHTS['bottomBun']
   return ingredients.map(
-    ingredient => (_sum += INGREDIENT_HEIGHTS.get(ingredient)! / 2)
+    ingredient => (_sum += INGREDIENT_HEIGHTS[ingredient.name])
   )
 }
 
-type Props = { ingredients: Ingredient[] }
-const BurgerPreview = ({ ingredients }: Props) => {
-  // TODO Fix heights
+type Props = { ingredients: IngredientList, onRemoveIngredient: (id: string) => void }
+const BurgerPreview = ({ ingredients, onRemoveIngredient }: Props) => {
   // TODO similar array construction for random angles to look more organic
   const ingredientHeights = calculateHeights(ingredients)
   console.log('ingredientHeights', ingredientHeights)
   return (
-    <group rotation={new Euler(0, -Math.PI / 2 + 0.3, 0)}>
-      {ingredients.map((ingredient, index) => {
-        const Component = getIngredientComponent(ingredient) as ElementType
-        const positionY = ingredientHeights[index]
-        return <Component positionY={positionY} key={index} />
-      })}
-      <BottomBun />
-      <Bounds />
+    <group rotation={new Euler(0, -Math.PI / 2 + 0.3, 0)} position={[0, -1.4, 2.5]}>
+      <Selection>
+        <EffectComposer multisampling={8} autoClear={false}>
+          <Outline edgeStrength={100} />
+        </EffectComposer>
+        {ingredients.map((ingredient, index) => {
+          const Component = getIngredientComponent(
+            ingredient.name
+          ) as ElementType
+          const positionY = ingredientHeights[index]
+          return (
+            <Component
+              positionY={positionY}
+              key={ingredient.id}
+              onDoubleClick={(e: ThreeEvent<MouseEvent>) => {
+                e.stopPropagation()
+                onRemoveIngredient(ingredient.id)
+              }}
+            />
+          )
+        })}
+        <BottomBun />
+        <Bounds />
+      </Selection>
     </group>
   )
 }
