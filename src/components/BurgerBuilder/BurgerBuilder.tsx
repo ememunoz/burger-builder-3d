@@ -26,13 +26,13 @@ export const BurgerBuilder = () => {
     setIngredients(ingredients => ingredients.filter(ingredient => ingredient.id !== id))
   }
   return (
-    <div className='flex flex-col aspect-[9/16] md:w-1/2 md:mx-auto'>
+    <div className='flex flex-col aspect-[9/15] md:w-1/2 md:mx-auto'>
       <Suspense fallback={null}>
         <Canvas>
           <Lights />
           <Suspense fallback={null}>
             <Physics>
-              <BurgerPreview ingredients={ingredients} onClick={removeIngredient} />
+              <BurgerPreview ingredients={ingredients} onRemoveIngredient={removeIngredient} />
             </Physics>
           </Suspense>
         </Canvas>

@@ -9,7 +9,7 @@ export const Navbar = () => (
       </h1>
       <ul className="flex flex-row items-center gap-4 font-body text-lg">
         <li className="border-b-[1px] border-transparent hover:border-solid hover:border-b-[1px] hover:border-current">
-          <a href="#">Build your own</a>
+          <a href="#build-your-own">Build your own</a>
         </li>
         <li className="border-b-[1px] border-transparent hover:border-solid hover:border-b-[1px] hover:border-current">
           <a href="#">My orders</a>

@@ -5,7 +5,7 @@ import { Euler } from 'three'
 
 import { Ingredient, IngredientList } from '../../types/ingredients'
 import { Bounds } from './bounds'
-import { BottomBun, Cheese, Salad, Steak, Tomato, TopBun } from './hamburger'
+import { BottomBun, Cheese, Salad, Steak, Tomato, TopBun } from './IngredientMeshes'
 
 const INGREDIENT_HEIGHTS = {
   bottomBun: 0.2,
@@ -44,8 +44,8 @@ const calculateHeights = (ingredients: IngredientList) => {
   )
 }
 
-type Props = { ingredients: IngredientList, onClick: (id: string) => void }
-const BurgerPreview = ({ ingredients, onClick }: Props) => {
+type Props = { ingredients: IngredientList, onRemoveIngredient: (id: string) => void }
+const BurgerPreview = ({ ingredients, onRemoveIngredient }: Props) => {
   // TODO similar array construction for random angles to look more organic
   const ingredientHeights = calculateHeights(ingredients)
   console.log('ingredientHeights', ingredientHeights)
@@ -64,9 +64,9 @@ const BurgerPreview = ({ ingredients, onClick }: Props) => {
             <Component
               positionY={positionY}
               key={ingredient.id}
-              onClick={(e: ThreeEvent<MouseEvent>) => {
+              onDoubleClick={(e: ThreeEvent<MouseEvent>) => {
                 e.stopPropagation()
-                onClick(ingredient.id)
+                onRemoveIngredient(ingredient.id)
               }}
             />
           )
