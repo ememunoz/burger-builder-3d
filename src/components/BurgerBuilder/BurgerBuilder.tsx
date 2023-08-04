@@ -49,7 +49,7 @@ const defaultIngredients: IngredientList = [
   }
 
 ]
-type Status = 'IDLE' | 'BUILDING' | 'FINISHED'
+type Status = 'IDLE' | 'BUILDING' | 'FINISHED' | 'ORDERED'
 
 export const BurgerBuilder = () => {
   const [status, setStatus] = useState<Status>('IDLE')
@@ -69,6 +69,7 @@ export const BurgerBuilder = () => {
   const addIngredient = (type: Ingredient) => {
     if (status === 'IDLE') return showToast('Tap start to begin')
     if (status === 'FINISHED') return showToast('Tap edit to change ingredients')
+    if (status === 'ORDERED') return
     if (ingredientHeights.at(-1)! > MAX_ALLOWED_HEIGHT) return
     const id = generateUUID()
     setIngredients(ingredients => [...ingredients, { id, name: type }])
@@ -107,6 +108,7 @@ export const BurgerBuilder = () => {
 
   const placeOrder = () => {
     showToast('Order placed!')
+    setStatus('ORDERED')
   }
 
   const showToast = (message: string) => {
@@ -174,6 +176,19 @@ export const BurgerBuilder = () => {
               }}
             >
               Restart
+            </IngredientButton>
+          </div>
+        }
+        {status === 'ORDERED' &&
+          <div className='flex flex-row h-11 gap-2 sm:gap-4'>
+            <IngredientButton
+              className='flex-grow'
+              onClick={() => {
+                setStatus('IDLE')
+                setIngredients(defaultIngredients)
+              }}
+            >
+              Build another one!
             </IngredientButton>
           </div>
         }

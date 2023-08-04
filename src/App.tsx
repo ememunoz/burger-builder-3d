@@ -15,7 +15,7 @@ function App() {
   const placeOrder = () => setIsToastOpen(true)
 
   return (
-    <RadixToast.Provider swipeDirection='right'>
+    <RadixToast.Provider swipeDirection='right' duration={2500}>
       <Navbar />
       <Banner />
       <main className="wrapper">
