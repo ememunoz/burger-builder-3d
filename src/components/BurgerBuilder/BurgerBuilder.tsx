@@ -2,6 +2,7 @@
 import { Canvas } from '@react-three/fiber'
 import { Physics } from '@react-three/rapier'
 import { MouseEventHandler, Suspense, useState } from 'react'
+import { useMedia } from 'react-use'
 import { generateUUID } from 'three/src/math/MathUtils.js'
 
 import { Ingredient, IngredientList } from '../../types/ingredients'
@@ -99,6 +100,18 @@ export const BurgerBuilder = () => {
     setIsFinished(true)
   }
 
+  const isSmall = useMedia('(min-width: 640px)')
+  const isMedium = useMedia('(min-width: 768px)')
+  const isLarge = useMedia('(min-width: 1024px)')
+
+  const getZoomValue = () => {
+    if (isLarge) return 225
+    if (isMedium) return 200
+    if (isSmall) return 182
+    return 140
+  }
+  const zoom = getZoomValue()
+
   return (
     <div className='flex flex-col gap-8 aspect-[9/15] md:w-1/2 md:mx-auto relative'>
       <div className='flex flex-col gap-1 absolute z-10 self-center top-1/2 -translate-y-1/2'>
@@ -131,7 +144,12 @@ export const BurgerBuilder = () => {
         }
       </div>
       <Suspense fallback={null}>
-        <Canvas onMouseDown={doNothing} orthographic camera={{ zoom: 225, position: [1, 1, 2], }} style={{ pointerEvents: isStarted ? 'auto' : 'none' }}>
+        <Canvas
+          onMouseDown={doNothing}
+          orthographic
+          camera={{ zoom, position: [1, 1, 2], }}
+          style={{ pointerEvents: isStarted ? 'auto' : 'none' }}
+        >
           <Lights />
           <Suspense fallback={null}>
             <Physics>
