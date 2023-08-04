@@ -7,6 +7,7 @@ import { generateUUID } from 'three/src/math/MathUtils.js'
 
 import { Ingredient, IngredientList } from '../../types/ingredients'
 import Icon, { IconId } from '../Icon/Icon'
+import { Toast } from '../Toast/Toast'
 import BurgerPreview from './BurgerPreview'
 import { IngredientButton } from './IngredientButton'
 import { Lights } from './Lights'
@@ -48,10 +49,12 @@ const defaultIngredients: IngredientList = [
   }
 
 ]
+type Status = 'IDLE' | 'BUILDING' | 'FINISHED' | 'ORDERED'
 
 export const BurgerBuilder = () => {
-  const [isStarted, setIsStarted] = useState(false)
-  const [isFinished, setIsFinished] = useState(false)
+  const [status, setStatus] = useState<Status>('IDLE')
+  const [isToastOpen, setIsToastOpen] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
   const [ingredients, setIngredients] =
     useState<IngredientList>(defaultIngredients)
 
@@ -64,7 +67,9 @@ export const BurgerBuilder = () => {
   const ingredientHeights = calculateHeights(ingredients)
 
   const addIngredient = (type: Ingredient) => {
-    if (isFinished || !isStarted) return
+    if (status === 'IDLE') return showToast('Tap start to begin')
+    if (status === 'FINISHED') return showToast('Tap edit to change ingredients')
+    if (status === 'ORDERED') return
     if (ingredientHeights.at(-1)! > MAX_ALLOWED_HEIGHT) return
     const id = generateUUID()
     setIngredients(ingredients => [...ingredients, { id, name: type }])
@@ -72,6 +77,7 @@ export const BurgerBuilder = () => {
   const addIngredientFnBuilder = (type: Ingredient) => () => addIngredient(type)
 
   const removeIngredient = (id: string) => {
+    if (status !== 'BUILDING') return
     setIngredients(ingredients => ingredients.filter(ingredient => ingredient.id !== id))
   }
   const removeTopIngredient = () => setIngredients(
@@ -89,15 +95,25 @@ export const BurgerBuilder = () => {
   }
 
   const start = () => {
+    setStatus('BUILDING')
     setIngredients([])
-    setIsStarted(true)
   }
 
   const finish = () => {
-    if (isFinished || !isStarted) return
+    if (status !== 'BUILDING') return
     const id = generateUUID()
     setIngredients(ingredients => [...ingredients, { id, name: 'topBun' }])
-    setIsFinished(true)
+    setStatus('FINISHED')
+  }
+
+  const placeOrder = () => {
+    showToast('Successfully added to your order!')
+    setStatus('ORDERED')
+  }
+
+  const showToast = (message: string) => {
+    setToastMessage(message)
+    setIsToastOpen(true)
   }
 
   const isSmall = useMedia('(min-width: 640px)')
@@ -113,42 +129,18 @@ export const BurgerBuilder = () => {
   const zoom = getZoomValue()
 
   return (
-    <div className='flex flex-col gap-8 aspect-[9/15] md:w-1/2 md:mx-auto relative'>
-      <div className='flex flex-col gap-1 absolute z-10 self-center top-1/2 -translate-y-1/2'>
-        {!isStarted &&
-          <>
-            <MenuButton onClick={start}>Start</MenuButton>
-            <MenuButton>Order this</MenuButton>
-          </>
-        }
-        {isFinished &&
-          <>
-            <MenuButton>Order</MenuButton>
-            <MenuButton
-              onClick={() => {
-                setIsFinished(false)
-                removeTopIngredient()
-              }}
-            >
-              Edit
-            </MenuButton>
-            <MenuButton
-              onClick={() => {
-                setIsFinished(false)
-                setIngredients([])
-              }}
-            >
-              Restart
-            </MenuButton>
-          </>
-        }
-      </div>
+    <div className='flex flex-col gap-8 aspect-[9/15] md:w-1/2 md:mx-auto relative' onMouseDown={doNothing}>
+      {status === 'IDLE' &&
+        <div className='flex flex-col gap-1 absolute z-10 self-center top-1/2 -translate-y-1/2'>
+          <MenuButton onClick={start}>Start</MenuButton>
+        </div>
+      }
       <Suspense fallback={null}>
         <Canvas
           onMouseDown={doNothing}
           orthographic
           camera={{ zoom, position: [1, 1, 2], }}
-          style={{ pointerEvents: isStarted ? 'auto' : 'none' }}
+          style={{ pointerEvents: status === 'BUILDING' ? 'auto' : 'none' }}
         >
           <Lights />
           <Suspense fallback={null}>
@@ -158,19 +150,63 @@ export const BurgerBuilder = () => {
           </Suspense>
         </Canvas>
       </Suspense>
-      <div className='flex flex-row h-11 gap-4'>
-        {INGREDIENT_CONTROLS.map((ingredient) => (
-          <IngredientButton
-            key={ingredient}
-            onClick={addIngredientFnBuilder(ingredient)}
-          >
-            <Icon id={ingredient as IconId} />
+      <div className='flex flex-col gap-2 sm:gap-4'>
+        {status === 'FINISHED' &&
+          <div className='flex flex-row h-11 gap-2 sm:gap-4'>
+            <IngredientButton
+              className="flex-grow"
+              onClick={placeOrder}
+            >
+              Order
+            </IngredientButton>
+            <IngredientButton
+              className='flex-grow'
+              onClick={() => {
+                setStatus('BUILDING')
+                removeTopIngredient()
+              }}
+            >
+              Edit
+            </IngredientButton>
+            <IngredientButton
+              className='flex-grow'
+              onClick={() => {
+                setStatus('BUILDING')
+                setIngredients([])
+              }}
+            >
+              Restart
+            </IngredientButton>
+          </div>
+        }
+        {status === 'ORDERED' &&
+          <div className='flex flex-row h-11 gap-2 sm:gap-4'>
+            <IngredientButton
+              className='flex-grow'
+              onClick={() => {
+                setStatus('IDLE')
+                setIngredients(defaultIngredients)
+              }}
+            >
+              Build another one!
+            </IngredientButton>
+          </div>
+        }
+        <div className='flex flex-row h-11 gap-2 sm:gap-4'>
+          {INGREDIENT_CONTROLS.map((ingredient) => (
+            <IngredientButton
+              key={ingredient}
+              onClick={addIngredientFnBuilder(ingredient)}
+            >
+              <Icon id={ingredient as IconId} />
+            </IngredientButton>
+          ))}
+          <IngredientButton onClick={finish}>
+            <Icon id='burger' />
           </IngredientButton>
-        ))}
-        <IngredientButton onClick={finish}>
-          <Icon id='burger' />
-        </IngredientButton>
+        </div>
       </div>
+      <Toast bodySlot={toastMessage} open={isToastOpen} onOpenChange={setIsToastOpen} />
     </div>
   )
 }

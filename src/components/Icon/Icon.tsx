@@ -3,6 +3,7 @@ import { SVGAttributes } from "react"
 export type IconId =
   | 'burger'
   | 'cheese'
+  | 'circle-xmark'
   | 'salad'
   | 'steak'
   | 'tomato'
