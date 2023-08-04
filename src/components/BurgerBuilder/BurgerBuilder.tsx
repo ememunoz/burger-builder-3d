@@ -111,7 +111,6 @@ export const BurgerBuilder = () => {
     return 140
   }
   const zoom = getZoomValue()
-  console.log('zoom', zoom);
 
   return (
     <div className='flex flex-col gap-8 aspect-[9/15] md:w-1/2 md:mx-auto relative'>
