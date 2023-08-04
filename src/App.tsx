@@ -61,7 +61,7 @@ function App() {
           Savor the virtual flavors and ambiance we 'serve,' and thank you for being our guest!"
         </p>
       </footer>
-      <Toast bodySlot="Order placed!" open={isToastOpen} onOpenChange={setIsToastOpen} />
+      <Toast bodySlot="Successfully added to your order!" open={isToastOpen} onOpenChange={setIsToastOpen} />
       <RadixToast.Viewport className='fixed bottom-0 right-0 p-4 w-full' />
     </RadixToast.Provider>
   )

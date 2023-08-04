@@ -107,7 +107,7 @@ export const BurgerBuilder = () => {
   }
 
   const placeOrder = () => {
-    showToast('Order placed!')
+    showToast('Successfully added to your order!')
     setStatus('ORDERED')
   }
 
