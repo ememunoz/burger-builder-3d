@@ -8,7 +8,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const IngredientButton = ({ children, className = '', ...props }: Props) => (
   <button
     type="button"
-    className={twMerge('p-1 sm:px-4 sm:py-2 rounded bg-mint text-mintDark-700 hover:bg-mintHover active:bg-mintActive', className)}
+    className={twMerge('p-1 sm:px-4 sm:py-2 rounded font-display bg-mint text-mintDark-700 hover:bg-mintHover active:bg-mintActive', className)}
     {...props}
   >
     {children}

@@ -1,15 +1,21 @@
+import * as RadixToast from '@radix-ui/react-toast'
+import { useState } from 'react'
 import { ColorManagement } from 'three'
 
 import { Banner } from './components/Banner/Banner'
 import { BurgerBuilder } from './components/BurgerBuilder/BurgerBuilder'
 import { BurgerCard } from './components/BurgerCard'
 import { Navbar } from './components/Navbar/Navbar'
+import { Toast } from './components/Toast/Toast'
 
 ColorManagement.enabled = true
 
 function App() {
+  const [isToastOpen, setIsToastOpen] = useState(false)
+  const placeOrder = () => setIsToastOpen(true)
+
   return (
-    <>
+    <RadixToast.Provider swipeDirection='right'>
       <Navbar />
       <Banner />
       <main className="wrapper">
@@ -20,16 +26,19 @@ function App() {
                 title="BBQ Bacon Burger"
                 imgSrc="./assets/img/bbqburger.webp"
                 description="Indulge in smoky BBQ flavors and crispy bacon. Juicy beef patty, Swiss cheese, tangy BBQ sauce, fresh lettuce, all between toasted buns. Flavor explosion!"
+                onClick={placeOrder}
               />
               <BurgerCard
                 title="Spicy Jalapeno Burger"
                 imgSrc="./assets/img/jalapenoburger.webp"
                 description="Fiery kick with juicy beef patty, jalapeno peppers, pepper jack cheese. Heat balanced with cool lettuce, ripe tomatoes, and creamy mayo. Thrill your senses!"
+                onClick={placeOrder}
               />
               <BurgerCard
                 title="Beyond Veggie Burger"
                 imgSrc="./assets/img/veganburger.webp"
                 description="Delightful vegan option. Plant-based patty with peas, mushrooms, and beets. Grilled to perfection. Fresh lettuce, ripe tomatoes, vegan mayo. Guilt-free delight!"
+                onClick={placeOrder}
               />
             </div>
           </div>
@@ -52,7 +61,9 @@ function App() {
           Savor the virtual flavors and ambiance we 'serve,' and thank you for being our guest!"
         </p>
       </footer>
-    </>
+      <Toast bodySlot="Order placed!" open={isToastOpen} onOpenChange={setIsToastOpen} />
+      <RadixToast.Viewport className='fixed bottom-0 right-0 p-4 w-full' />
+    </RadixToast.Provider>
   )
 }
 
