@@ -20,7 +20,7 @@ export const BurgerCard = ({
       <p>{description}</p>
       <button
         type="button"
-        className="justify-end font-body text-xl px-4 py-2 rounded bg-mint text-white md:text-black md:shadow-md hover:bg-mintHover active:bg-mintActive"
+        className="justify-end font-body text-xl px-4 py-2 mt-auto rounded bg-mint text-white md:text-black md:shadow-md hover:bg-mintHover active:bg-mintActive"
         onClick={onClick}
       >
         Order Now
